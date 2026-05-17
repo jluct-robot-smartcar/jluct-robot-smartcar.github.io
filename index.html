@@ -1,10 +1,1313 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <title>我的个人主页</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>机器人和智能车实验室 | 吉林化工大学</title>
+    <style>
+        :root {
+            --jlu-blue: #003e7e; /* 经典学术深蓝 */
+            --accent-gold: #b45309; /* 荣誉金色 */
+            --text-dark: #222222;
+            --text-muted: #555555;
+            --bg-light: #f9fbfd;
+            --border-color: #e5e7eb;
+            --nav-height: 55px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans CJK SC", sans-serif;
+            color: var(--text-dark);
+            background-color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* 顶部横条 */
+        .top-bar {
+            background-color: var(--jlu-blue);
+            height: 5px;
+            width: 100%;
+        }
+
+        /* 页眉区域 */
+        header {
+            background-color: #ffffff;
+            padding: 20px 0;
+        }
+
+        .header-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .lab-logo {
+            height: 55px; /* 精确适配左侧 Logo 尺寸 */
+            width: auto;
+            object-fit: contain;
+        }
+
+        .brand-text h1 {
+            font-size: 24px;
+            color: var(--jlu-blue);
+            font-weight: 700;
+        }
+        .brand-text p {
+            font-size: 13px;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        /* 悬浮导航栏 */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 30px;
+        }
+
+        @media (max-width: 600px) {
+            .nav-container {
+                gap: 15px;
+                padding: 0 10px;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 15px;
+            font-weight: 600;
+            padding: 14px 0;
+            position: relative;
+            transition: color 0.2s ease;
+            display: inline-block;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--jlu-blue);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: var(--jlu-blue);
+            transition: width 0.2s ease;
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* 主体两栏布局 (效仿经典学术主页范式) */
+        .main-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                margin-top: 20px;
+            }
+        }
+
+        /* 左侧侧边栏：基本信息 */
+        .sidebar {
+            position: sticky;
+            top: calc(var(--nav-height) + 20px);
+            align-self: start;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+        }
+
+        .profile-img-container {
+            width: 100%;
+            height: 240px;
+            background-color: #f3f4f6;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .profile-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* 改为 contain，使得 icon.png 在侧边栏能完美完整显示不被裁剪 */
+            background-color: #ffffff;
+        }
+
+        .sidebar-info h2 {
+            font-size: 20px;
+            color: var(--jlu-blue);
+            margin-bottom: 5px;
+        }
+        .sidebar-info .subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .contact-list {
+            list-style: none;
+            font-size: 14px;
+        }
+        .contact-list li {
+            margin-bottom: 10px;
+            color: #4b5563;
+        }
+        .contact-list strong {
+            color: var(--text-dark);
+        }
+
+        /* 右侧主内容区 */
+        .content-section {
+            margin-bottom: 50px;
+            scroll-margin-top: calc(var(--nav-height) + 20px); /* 防止吸顶导航挡住标题 */
+        }
+
+        .section-title {
+            font-size: 20px;
+            color: var(--jlu-blue);
+            border-bottom: 2px solid var(--jlu-blue);
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .bio-text {
+            font-size: 15px;
+            color: #374151;
+            text-align: justify;
+            margin-bottom: 20px;
+        }
+
+        /* 实验室优势高亮卡片 */
+        .lab-highlights {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .lab-highlights {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .highlight-card {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        .highlight-card strong {
+            color: var(--jlu-blue);
+            display: block;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .highlight-card p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* 招新通知呼吁盒子 */
+        .recruitment-box {
+            margin-top: 25px;
+            border: 2px dashed var(--accent-gold);
+            background-color: #fefcf6;
+            padding: 22px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .recruitment-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(180, 83, 9, 0.08);
+        }
+
+        .recruitment-icon {
+            font-size: 36px;
+            color: var(--accent-gold);
+            user-select: none;
+        }
+
+        .recruitment-text strong {
+            color: var(--jlu-blue);
+            font-size: 16.5px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .recruitment-text p {
+            font-size: 13.8px;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        .email-link {
+            color: var(--accent-gold);
+            font-weight: 700;
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent-gold);
+            padding-bottom: 1px;
+            transition: color 0.2s;
+        }
+
+        .email-link:hover {
+            color: var(--jlu-blue);
+            border-color: var(--jlu-blue);
+        }
+
+        /* 培养指导板块样式 */
+        .guidance-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .guidance-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .guidance-card {
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 4px;
+            background-color: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        .guidance-card:hover {
+            border-color: var(--jlu-blue);
+            box-shadow: 0 4px 12px rgba(0, 62, 126, 0.05);
+        }
+
+        .guidance-card h4 {
+            font-size: 16px;
+            color: var(--jlu-blue);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .guidance-card p {
+            font-size: 13.5px;
+            color: #4b5563;
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+        /* 筛选按钮与搜索框样式 */
+        .filter-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .search-box {
+            padding: 8px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+            width: 280px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-box:focus {
+            border-color: var(--jlu-blue);
+        }
+
+        .filter-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-muted);
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--jlu-blue);
+            color: #ffffff;
+            border-color: var(--jlu-blue);
+        }
+
+        /* 导师简介块 (卡片样式排版) */
+        .mentor-card {
+            background-color: var(--bg-light);
+            border-left: 4px solid var(--jlu-blue);
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .mentor-card h3 {
+            font-size: 17px;
+            color: var(--jlu-blue);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mentor-card h3 .title-tag {
+            font-size: 12px;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: normal;
+        }
+
+        .mentor-card ul {
+            padding-left: 20px;
+            font-size: 14.5px;
+            color: #4b5563;
+        }
+
+        .mentor-card li {
+            margin-bottom: 8px;
+        }
+
+        /* 学术论文列表样式 (精确还原 Li Zan 教授主页格式) */
+        .publication-list {
+            list-style: none;
+        }
+
+        .publication-item {
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--border-color);
+            font-size: 14.5px;
+            line-height: 1.6;
+        }
+        .publication-item:last-child { border-bottom: none; }
+
+        .pub-authors { color: #374151; }
+        .pub-title { font-weight: 600; color: var(--text-dark); }
+        .pub-journal { font-style: italic; color: var(--jlu-blue); }
+        .pub-impact {
+            color: var(--accent-gold);
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        /* 成果表格样式 */
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 15px;
+            max-height: 600px; /* 增加大列表滚动视图，极高信息密度的学术美感 */
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f3f4f6;
+            color: var(--text-dark);
+            padding: 12px 15px;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            color: #4b5563;
+        }
+
+        tr:nth-child(even) { background-color: #fafafa; }
+
+        .badge-prize {
+            background-color: #fef3c7;
+            color: #b45309;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-prize-blue {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-school {
+            background-color: #f1f5f9;
+            color: #475569;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* 页脚 */
+        footer {
+            border-top: 1px solid var(--border-color);
+            background-color: #f9fafb;
+            padding: 30px 0;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 60px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, World! 这是我的个人主页。</h1>
-    <p>欢迎来到我的网站！</p>
+
+    <div class="top-bar"></div>
+
+    <header>
+        <div class="header-container">
+            <div class="logo-area">
+                <div class="brand-text">
+                    <h1>机器人和智能车实验室</h1>
+                    <p>Robot & Smart Car Laboratory</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 导航栏组件 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#about" class="nav-link active">实验室简介</a>
+            <a href="#mentorship" class="nav-link">人才培养</a>
+            <a href="#faculty" class="nav-link">导师团队</a>
+            <a href="#publications" class="nav-link">学术成果</a>
+            <a href="#awards" class="nav-link">带教成果</a>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        
+        <div class="sidebar">
+            <div class="profile-img-container">
+                <!-- 按照反馈，箭头所指左侧位置替换并使用 icon.png -->
+                <img src="icon.png" alt="机器人和智能车实验室 Logo">
+            </div>
+            <div class="sidebar-info">
+                <h2>机器人和智能车实验室</h2>
+                <div class="subtitle">技术创新与学术科研双驱动</div>
+                <ul class="contact-list">
+                    <li><strong>核心方向：</strong>边缘计算优化、物联网感知、智能控制系统</li>
+                    <li><strong>学校地址：</strong>吉林化工大学</li>
+                    <li><strong>合作机制：</strong>长周期协同 / 全栈联合培养</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            
+            <!-- 实验室简介版块 -->
+            <div class="content-section" id="about">
+                <div class="section-title">实验室简介</div>
+                <p class="bio-text">
+                    吉林化工大学机器人和智能车实验室<strong>依托于智能制造协会</strong>，由海内外知名学者与工业界资深全栈架构专家联合指导。本实验室以<strong>高水平学科竞赛与前沿学术产出为双向驱动力</strong>，致力于打破高校传统学术理论与工业落地应用之间的技术壁垒，是一所集前沿技术研发、双创实训和学术探索于一体的高水平特色实践基地。
+                </p>
+                <p class="bio-text">
+                    实验室目前配备有<strong>竞赛级/工业级机器人 2 台、高性能智能车 3 台以及高精度 3D 打印机</strong>等先进硬件研发平台，并建立起一套完善、常态化的<strong>定期培训机制</strong>。团队全方位、深层次指导学生进行<strong>编程、控制、视觉、机器学习、强化学习、系统开发</strong>等核心技术栈的跨学科实战，打通从底层硬件逻辑、物理结构验证至上层智能算法的全链条通路。通过严苛的敏捷工程管理与前沿学术训练，协助学生在极短周期内完成理论落地与工程重塑，实现成果从 0 到 1 的高质感突破。
+                </p>
+                
+                <div class="lab-highlights">
+                    <div class="highlight-card">
+                        <strong>🔬 硬件配置 & 协会依托</strong>
+                        <p>依托学校智能制造协会，目前常备先进竞赛机器人 2 台、高配置智能赛车 3 台，以及高精度 3D 打印机数台。提供全天候的硬件调试和结构打样环境，保障高频次控制算法迭代与非标原型机物理快速打样验证需求。</p>
+                    </div>
+                    <div class="highlight-card">
+                        <strong>🎓 周期性培训 & 多维指导</strong>
+                        <p>搭建常态化、螺旋式上升的知识讲授与实战演练体系。全链条覆盖底层固件与系统开发（C++/Python）、经典与现代控制工程、前端/后端视觉感知、前沿机器学习与多智能体强化学习。</p>
+                    </div>
+                </div>
+
+                <!-- 招新与简历发送高亮卡片 -->
+                <div class="recruitment-box">
+                    <div class="recruitment-icon">✉️</div>
+                    <div class="recruitment-text">
+                        <strong>加入我们 | 优秀本科生招新通道开启</strong>
+                        <p>
+                            本实验室主要面向吉林化工大学优秀本科生。无论你是渴望通过学科竞赛证明自己的技术极客，还是致力于攻坚前沿算法的研究型骨干，实验室都将为你提供丰厚的硬件调试平台及一对一个性化成长指导（包含学业规划、考研/保研学术辅导）。<strong>我们非常欢迎并期待有探索热情的你加入我们！</strong>
+                            <br><span style="display: block; margin-top: 5px;">欢迎将你的个人简历发送至我们的招新专用邮箱：<a href="mailto:luoqi26@jluct.edu.cn" class="email-link">luoqi26@jluct.edu.cn</a></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 人才培养与指导版块 -->
+            <div class="content-section" id="mentorship">
+                <div class="section-title">学生培养与发展指导 (Student Mentorship)</div>
+                <p class="bio-text">
+                    除了常规的实验室硬件调试研发外，实验室核心导师组深度介入本科生成长周期的每一个关键节点，提供包括竞赛实训、学业路线图、名校考研辅导以及顶尖学术成果孵化在内的“全链条”个性化带教。
+                </p>
+                <div class="guidance-grid">
+                    <div class="guidance-card">
+                        <h4>🏆 顶级学科竞赛指导</h4>
+                        <p>引入大厂工业级开发规范与敏捷流程，由金牌导师手把手带教. 针对全国大学生电子设计竞赛（电赛）、人工智能创新大赛、全地形机器人大赛、智能车竞赛等核心赛事，从原理图设计、嵌入式开发、感知算法优化到整机联合调试，进行系统化高强度演练，帮助学生实现省级一等奖零的突破。</p>
+                    </div>
+                    <div class="guidance-card">
+                        <h4>📈 阶梯式本科学业规划</h4>
+                        <p>破除低年级本科生学业迷茫，制定“大一固编程基础、大二攻硬核竞赛、大三冲前沿学术/全栈开发、大四无缝接轨大厂就业/重点院校”的阶梯式技术成长图谱。精准匹配学生兴趣与核心技术棧，协助学生在校期间构建极具竞争力的个人技能与简历背景。</p>
+                    </div>
+                    <div class="guidance-card">
+                        <h4>🎯 考研择校与专业辅导</h4>
+                        <p>依托实验室深厚的国内顶级名校学术人脉（如中国石油大学、复旦大学、芬兰奥卢大学及各大双一流科研院所），提供考研专业课（数据结构、计算机网络、自控原理等）核心解惑，协助进行科学 of 考研择校、调剂情报共享、高质量复试简历打磨与面试实操模拟。</p>
+                    </div>
+                    <div class="guidance-card">
+                        <h4>✍️ 高水平论文与专利写作</h4>
+                        <p>由国际一区顶刊特邀审稿人、高层次引进人才刘芳正老师亲自指点。面向有意发表学术论文、申请国家专利的学生，提供选题凝练、数学建模、文献检索、英文润色、专利申报书规范撰写以及避坑审稿意见的一对一硬核实训，助力本科生跨越学术门槛。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 导师团队版块 -->
+            <div class="content-section" id="faculty">
+                <div class="section-title">指导教师团队</div>
+                
+                <div class="mentor-card">
+                    <h3>刘芳正 <span class="title-tag">讲师 / 硕士生导师</span></h3>
+                    <ul>
+                        <li><strong>省部级引进高层次人才：</strong>吉林省 E 类高层次引进人才，长期专注边缘计算与智能优化，具备极高的国际学术影响力。</li>
+                        <li><strong>国际顶级学术背书：</strong>受邀担任 IEEE Internet of Things Journal (物联网领域 Top 1 期刊)、IEEE Transactions on Cloud Computing (云计算顶级期刊)、IEEE TMC 等国际顶级期刊特邀审稿人；参与并顺利结题北京市科技新星计划。</li>
+                        <li><strong>带队卓越实绩 (省一集群)</strong>：长期坚持“以赛促学”的高效带教策略。指导本科生团队累计斩获<strong>省级一等奖 2 项</strong>、<strong>省级二等奖 2 项</strong>以及考研辅导、高水平成果转化若干。</li>
+                        <li><strong>名校名师与海外视野：</strong>博士毕业于中国石油大学（北京），师从名家黄霁崴教授. 获国家公派赴 6G研究重镇——芬兰奥卢大学（University of Oulu）联合培养，师从 IEEE Fellow，并与加拿大、芬兰等多国顶尖实验室建立长期学术协作。</li>
+                    </ul>
+                </div>
+
+                <div class="mentor-card">
+                    <h3>罗旗 <span class="title-tag">助理实验师</span></h3>
+                    <ul>
+                        <li><strong>资深工业界全栈架构背景：</strong>拥有 7.5 年互联网一线大厂高强度实战经验。历任爱奇艺、美团资深系统开发工程师，并曾担任科技创业公司 Talentown 首席架构师；主导过百万级高并发底座系统设计，具备从 0 到 1 全链路云原生化工程搭建与敏捷开发落地能力。</li>
+                        <li><strong>极速高效的带教转化实绩：</strong>入职吉林化工大学仅一年内，成功将大厂敏捷开发与工程规范管理模式注入竞赛团队。指导学生团队累计夺得<strong>省级一等奖 1 项</strong>（2025吉林省人工智能创新大赛）、<strong>省级二等奖 1 项</strong>（全国大学生电子设计竞赛）、<strong>省级三等奖 1 项</strong>（长通杯等），在极短周期内实现了竞赛成果从 0 到 1 的高质、指数级质变突破。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 学术成果版块 -->
+            <div class="content-section" id="publications">
+                <div class="section-title">代表性学术成果 (Selected Publications & Patents)</div>
+                <ul class="publication-list">
+                    <li class="publication-item">
+                        <span class="pub-authors"><strong>Fangzheng Liu</strong>, Hao Yu, Jiwei Huang, Tarik Taleb.</span> 
+                        <span class="pub-title">"Joint Service Migration and Resource Allocation in Edge IoT System Based on Deep Reinforcement Learning"</span>[J]. 
+                        <span class="pub-journal">IEEE Internet of Things Journal</span>, 11(7): 11341-11352, 2023. <span class="pub-impact">(中科院一区 Top 期刊, 影响因子: 10.6)</span>
+                    </li>
+                    <li class="publication-item">
+                        <span class="pub-authors"><strong>Fangzheng Liu</strong>, Jiwei Huang, Xianbin Wang.</span> 
+                        <span class="pub-title">"Joint task offloading and resource allocation for device-edge-cloud collaboration with subtask dependencies"</span>[J]. 
+                        <span class="pub-journal">IEEE Transactions on Cloud Computing</span>, 11(3): 3027-3039, 2023. <span class="pub-impact">(中科院一区 Top 期刊, 云计算领域顶级)</span>
+                    </li>
+                    <li class="publication-item">
+                        <span class="pub-authors">Jiwei Huang, <strong>Fangzheng Liu</strong>, Jianbing Zhang.</span> 
+                        <span class="pub-title">"Multi-dimensional QoS Evaluation and Optimization of Mobile Edge Computing for IoT: A Survey"</span>[J]. 
+                        <span class="pub-journal">Chinese Journal of Electronics</span>, 33(5): 1-16, 2024. <span class="pub-impact">(SCI / EI 双检索, 电子学报英文版)</span>
+                    </li>
+                    <li class="publication-item">
+                        <span class="pub-authors"><strong>Fangzheng Liu</strong>, Bofeng Lv, Jiwei Huang, Sikandar Ali.</span> 
+                        <span class="pub-title">"Edge User Allocation in Overlap Areas for Mobile Edge Computing"</span>[J]. 
+                        <span class="pub-journal">Mobile Networks and Applications</span>, 26(6): 2423-2433, 2021. <span class="pub-impact">(SCI 检索)</span>
+                    </li>
+                    <li class="publication-item">
+                        <span class="pub-authors"><strong>Fangzheng Liu</strong>, Bofeng Lv, Jiwei Huang, Sikandar Ali.</span> 
+                        <span class="pub-title">"Towards Mobility-Aware Dynamic Service Migration in Mobile Edge Computing"</span>[C]. 
+                        <span class="pub-journal">Collaborative Computing: Networking, Applications and Worksharing (CollaborateCom)</span>, Springer, 115-131, 2021. <span class="pub-impact">(EI 检索重要学术会议)</span>
+                    </li>
+                    <li class="publication-item">
+                        <span class="pub-authors"><strong>刘芳正</strong>, 马博闻, 吕博枫, 黄霁崴.</span> 
+                        <span class="pub-title">"一种面向移动边缘计算的无人机基站部署方法"</span>[J]. 
+                        <span class="pub-journal">计算机科学</span>, 49(11A): 220200089-7, 2022. <span class="pub-impact">(中文核心期刊)</span>
+                    </li>
+                </ul>
+
+                <!-- 发明专利子版块 -->
+                <div style="margin-top: 30px; border-top: 1px dashed var(--border-color); padding-top: 25px;">
+                    <h4 style="font-size: 16.5px; color: var(--jlu-blue); margin-bottom: 15px; font-weight: 700;">发明专利 (Selected Patents)</h4>
+                    <ul class="publication-list">
+                        <li class="publication-item">
+                            <span class="pub-authors"><strong>刘芳正</strong>, 黄丹凤, 董如意.</span> 
+                            <span class="pub-title">"面向边缘物联网的动态服务迁移与资源分配方法和装置"</span>. 
+                            <span class="pub-journal">国家发明专利已授权</span>, 专利号: ZL202510530393.5.
+                        </li>
+                        <li class="publication-item">
+                            <span class="pub-authors">黄霁崴, <strong>刘芳正</strong>, 吕博枫, 张建兵.</span> 
+                            <span class="pub-title">"动态服务迁移方法及装置"</span>. 
+                            <span class="pub-journal">国家发明专利已授权</span>, 专利号: ZL202010312234.5 (申请日: 2020年04月20日).
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 带教成果/学生获奖版块 -->
+            <div class="content-section" id="awards">
+                <div class="section-title">带教成果与学生荣誉 (Student Awards)</div>
+                <p class="bio-text" style="margin-bottom: 15px;">
+                    本实验室在人才培养、带队双创及工程实践上实现了丰硕转化，累计指导本科生斩获各项省级及校级赛事荣誉 <strong>54 项</strong>。以下为实验室全部学生获奖明细。
+                </p>
+
+                <!-- 交互式动态筛选控件（提升检索性） -->
+                <div class="filter-controls">
+                    <input type="text" id="award-search" class="search-box" placeholder="🔍 输入姓名、班级、赛项或奖项筛选...">
+                    <div class="filter-btns">
+                        <button class="filter-btn active" data-filter="all">全部展示</button>
+                        <button class="filter-btn" data-filter="prov1">省级一等奖</button>
+                        <button class="filter-btn" data-filter="prov23">省级二/三等奖</button>
+                        <button class="filter-btn" data-filter="school">校级/其它荣誉</button>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table id="awards-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">姓名</th>
+                                <th style="width: 100px;">班级</th>
+                                <th style="width: 100px;">学号</th>
+                                <th>获奖时间、赛项名称及情况</th>
+                                <th style="width: 120px;">级别</th>
+                                <th style="width: 100px;">指导教师</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- 省级一等奖部分 -->
+                            <tr class="award-row prov1">
+                                <td>郭栩晖</td>
+                                <td>计算2303</td>
+                                <td>2310507310</td>
+                                <td>2026年全国大学生电子设计竞赛省级一等奖</td>
+                                <td><span class="badge-prize">省级一等奖</span></td>
+                                <td>刘芳正</td>
+                            </tr>
+                            <tr class="award-row prov1">
+                                <td>郭栩晖</td>
+                                <td>计算2303</td>
+                                <td>2310507310</td>
+                                <td>2025年第六届吉林省人工智能创新大赛省级一等奖</td>
+                                <td><span class="badge-prize">省级一等奖</span></td>
+                                <td>罗旗</td>
+                            </tr>
+                            <tr class="award-row prov1">
+                                <td>尹健</td>
+                                <td>计算2306</td>
+                                <td>2310507629</td>
+                                <td>2026年全国大学生电子设计竞赛省级一等奖</td>
+                                <td><span class="badge-prize">省级一等奖</span></td>
+                                <td>刘芳正</td>
+                            </tr>
+                            <tr class="award-row prov1">
+                                <td>尹健</td>
+                                <td>计算2306</td>
+                                <td>2310507629</td>
+                                <td>2025年第六届吉林省人工智能创新大赛一等奖</td>
+                                <td><span class="badge-prize">省级一等奖</span></td>
+                                <td>刘芳正</td>
+                            </tr>
+                            <tr class="award-row prov1">
+                                <td>王佳帅</td>
+                                <td>计算2307</td>
+                                <td>2310507729</td>
+                                <td>2026年全国大学生电子设计竞赛省级一等奖</td>
+                                <td><span class="badge-prize">省级一等奖</span></td>
+                                <td>刘芳正</td>
+                            </tr>
+                            <tr class="award-row prov1">
+                                <td>王佳帅</td>
+                                <td>计算2307</td>
+                                <td>2310507729</td>
+                                <td>2025年第六届吉林省人工智能创新大赛省级一等奖</td>
+                                <td><span class="badge-prize">省级一等奖</span></td>
+                                <td>罗旗</td>
+                            </tr>
+                            <tr class="award-row prov1">
+                                <td>赵松</td>
+                                <td>计算2306</td>
+                                <td>2310507636</td>
+                                <td>2025年第六届吉林省人工智能创新大赛一等奖</td>
+                                <td><span class="badge-prize">省级一等奖</span></td>
+                                <td>刘芳正</td>
+                            </tr>
+                            <tr class="award-row prov1">
+                                <td>任丽娜</td>
+                                <td>自动2503</td>
+                                <td>2510503319</td>
+                                <td>2025吉林省全地形机器人自主创新设计比赛省一</td>
+                                <td><span class="badge-prize">省级一等奖</span></td>
+                                <td>刘芳正</td>
+                            </tr>
+                            <tr class="award-row prov1">
+                                <td>朱佳妮</td>
+                                <td>自动2503</td>
+                                <td>2510503339</td>
+                                <td>2025吉省全地形机器人自主创新设计比赛省一</td>
+                                <td><span class="badge-prize">省级一等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row prov1">
+                                <td>李梦娜</td>
+                                <td>自动2503</td>
+                                <td>2510503311</td>
+                                <td>2025吉林省全地形机器人自主创新设计比赛省一</td>
+                                <td><span class="badge-prize">省级一等奖</span></td>
+                                <td>刘芳正</td>
+                            </tr>
+                            <tr class="award-row prov1">
+                                <td>张鸿展</td>
+                                <td>自动2503</td>
+                                <td>2510503333</td>
+                                <td>2025吉林省全地形小车省一</td>
+                                <td><span class="badge-prize">省级一等奖</span></td>
+                                <td>刘芳正</td>
+                            </tr>
+
+                            <!-- 省级二/三等奖部分 -->
+                            <tr class="award-row prov23">
+                                <td>赵松</td>
+                                <td>计算2306</td>
+                                <td>2310507636</td>
+                                <td>2026年全国大学生电子设计竞赛省级二等奖</td>
+                                <td><span class="badge-prize-blue">省级二等奖</span></td>
+                                <td>罗旗</td>
+                            </tr>
+                            <tr class="award-row prov23">
+                                <td>赵权</td>
+                                <td>计算2305</td>
+                                <td>2310507535</td>
+                                <td>2026年全国大学生电子设计竞赛省级二等奖</td>
+                                <td><span class="badge-prize-blue">省级二等奖</span></td>
+                                <td>罗旗</td>
+                            </tr>
+                            <tr class="award-row prov23">
+                                <td>任祥宇</td>
+                                <td>自动2503</td>
+                                <td>2510503320</td>
+                                <td>仿生机器人大赛省级二等奖</td>
+                                <td><span class="badge-prize-blue">省级二等奖</span></td>
+                                <td>刘芳正</td>
+                            </tr>
+                            <tr class="award-row prov23">
+                                <td>金家贺</td>
+                                <td>自动2503</td>
+                                <td>2510503308</td>
+                                <td>吉林省高校大学生机器人大赛省二</td>
+                                <td><span class="badge-prize-blue">省级二等奖</span></td>
+                                <td>刘芳正</td>
+                            </tr>
+                            <tr class="award-row prov23">
+                                <td>任祥宇</td>
+                                <td>自动2503</td>
+                                <td>2510503320</td>
+                                <td>长通杯省级三等奖</td>
+                                <td><span class="badge-prize-blue">省级三等奖</span></td>
+                                <td>罗旗</td>
+                            </tr>
+                            <tr class="award-row prov23">
+                                <td>张旭</td>
+                                <td>自动2503</td>
+                                <td>2510503334</td>
+                                <td>2026（长通杯）全国大学生电子设计大赛省级三等奖</td>
+                                <td><span class="badge-prize-blue">省级三等奖</span></td>
+                                <td>罗旗</td>
+                            </tr>
+                            <tr class="award-row prov23">
+                                <td>金家贺</td>
+                                <td>自动2503</td>
+                                <td>2510503308</td>
+                                <td>长通杯省级三等奖</td>
+                                <td><span class="badge-prize-blue">省级三等奖</span></td>
+                                <td>罗旗</td>
+                            </tr>
+                            <tr class="award-row prov23">
+                                <td>杨傲康</td>
+                                <td>智能2501</td>
+                                <td>2510551130</td>
+                                <td>2025年吉林省冰雪创意大赛省级三等奖</td>
+                                <td><span class="badge-prize-blue">省级三等奖</span></td>
+                                <td>-</td>
+                            </tr>
+
+                            <!-- 校级与其它荣誉部分 -->
+                            <tr class="award-row school">
+                                <td>任祥宇</td>
+                                <td>自动2503</td>
+                                <td>2510503320</td>
+                                <td>仿生机器人校一等奖</td>
+                                <td><span class="badge-school">校级一等奖</span></td>
+                                <td>刘芳正</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>张旭</td>
+                                <td>自动2503</td>
+                                <td>2510503334</td>
+                                <td>2025年吉林省冰雪创意大赛校一</td>
+                                <td><span class="badge-school">校级一等奖</span></td>
+                                <td>罗旗</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>刘添硕</td>
+                                <td>自动2503</td>
+                                <td>2510503315</td>
+                                <td>2025年吉林省冰雪创意大赛校一</td>
+                                <td><span class="badge-school">校级一等奖</span></td>
+                                <td>罗旗</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>任丽娜</td>
+                                <td>自动2503</td>
+                                <td>2510503319</td>
+                                <td>2025年长通杯校一</td>
+                                <td><span class="badge-school">校级一等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>任丽娜</td>
+                                <td>自动2503</td>
+                                <td>2510503319</td>
+                                <td>2026年人工智能服务创新大赛校一</td>
+                                <td><span class="badge-school">校级一等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>丁依彤</td>
+                                <td>自动2503</td>
+                                <td>2510503303</td>
+                                <td>2026年人工智能服务创新大赛校一</td>
+                                <td><span class="badge-school">校级一等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>朱佳妮</td>
+                                <td>自动2503</td>
+                                <td>2510503339</td>
+                                <td>2025年长通杯校一</td>
+                                <td><span class="badge-school">校级一等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>张美悦</td>
+                                <td>自动2501</td>
+                                <td>2510503137</td>
+                                <td>2025年长通杯校一</td>
+                                <td><span class="badge-school">校级一等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>张美悦</td>
+                                <td>自动2501</td>
+                                <td>2510503137</td>
+                                <td>2026年人工智能服务创新大赛校一</td>
+                                <td><span class="badge-school">校级一等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>张鸿展</td>
+                                <td>自动2503</td>
+                                <td>2510503333</td>
+                                <td>2025年吉林省冰雪创意大赛校一</td>
+                                <td><span class="badge-school">校级一等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>金家贺</td>
+                                <td>自动2503</td>
+                                <td>2510503308</td>
+                                <td>吉林省大学生人工智能创新大赛校一</td>
+                                <td><span class="badge-school">校级一等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>周科均</td>
+                                <td>自动2503</td>
+                                <td>2510503337</td>
+                                <td>2025年长通杯校一</td>
+                                <td><span class="badge-school">校级一等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>吴承峻</td>
+                                <td>自动2503</td>
+                                <td>2510503329</td>
+                                <td>2025年吉林省冰雪创意大赛校一</td>
+                                <td><span class="badge-school">校级一等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>任祥宇</td>
+                                <td>自动2503</td>
+                                <td>2510503320</td>
+                                <td>长通杯校二等奖</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>罗旗</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>任祥宇</td>
+                                <td>自动2503</td>
+                                <td>2510503320</td>
+                                <td>2026年人工智能服务创新大赛校二</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>任祥宇</td>
+                                <td>自动2503</td>
+                                <td>2510503320</td>
+                                <td>挑战杯校二银奖</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>任祥宇</td>
+                                <td>自动2503</td>
+                                <td>2510503320</td>
+                                <td>计算机设计大赛校二</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>刘芳正</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>张旭</td>
+                                <td>自动2503</td>
+                                <td>2510503334</td>
+                                <td>2026年人工智能服务创新大赛校二</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>张旭</td>
+                                <td>自动2503</td>
+                                <td>2510503334</td>
+                                <td>2026年中国大学生计算机设计大赛校二</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>刘添硕</td>
+                                <td>自动2503</td>
+                                <td>2510503315</td>
+                                <td>2026年人工智能服务创新大赛校二</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>刘添硕</td>
+                                <td>自动2503</td>
+                                <td>2510503315</td>
+                                <td>2026年中国大学生计算机设计大赛校二</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>刘添硕</td>
+                                <td>自动2503</td>
+                                <td>2510503315</td>
+                                <td>2026年挑战杯大学生创业计划竞赛银奖</td>
+                                <td><span class="badge-school">校级银奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>杨傲康</td>
+                                <td>智能2501</td>
+                                <td>2510551130</td>
+                                <td>2025年长通杯校二</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>杨傲康</td>
+                                <td>智能2501</td>
+                                <td>2510551130</td>
+                                <td>2026年人工智能服务创新大赛校二</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>王帅</td>
+                                <td>自动2503</td>
+                                <td>2510503327</td>
+                                <td>2025年长通杯校二</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>张鸿展</td>
+                                <td>自动2503</td>
+                                <td>2510503333</td>
+                                <td>第十七届中国大学生服务外包创新创业大赛校二</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>金家贺</td>
+                                <td>自动2503</td>
+                                <td>2510503308</td>
+                                <td>计算机设计大赛校二</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>刘芳正</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>金家贺</td>
+                                <td>自动2503</td>
+                                <td>2510503308</td>
+                                <td>2026年人工智能服务创新大赛校二</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>刘帝讯</td>
+                                <td>智能2501</td>
+                                <td>2510551112</td>
+                                <td>2025年长通杯校二</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>刘帝凯</td>
+                                <td>智能2501</td>
+                                <td>2510551112</td>
+                                <td>2026年人工智能服务创新大赛校二</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>卢飞翔</td>
+                                <td>智能2501</td>
+                                <td>2510551115</td>
+                                <td>2025年长通杯校二</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>王雍皓</td>
+                                <td>自动2503</td>
+                                <td>2510503328</td>
+                                <td>2025年长通杯校二</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>李鑫宇</td>
+                                <td>自动2503</td>
+                                <td>2510503313</td>
+                                <td>2025年长通杯校二</td>
+                                <td><span class="badge-school">校级二等奖</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>张旭</td>
+                                <td>自动2503</td>
+                                <td>2510503334</td>
+                                <td>2025年长通杯校三</td>
+                                <td><span class="badge-school">校级三等奖</span></td>
+                                <td>刘芳正</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>刘添硕</td>
+                                <td>自动2503</td>
+                                <td>2510503315</td>
+                                <td>2025年长通杯校三</td>
+                                <td><span class="badge-school">校级三等奖</span></td>
+                                <td>刘芳正</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>王帅</td>
+                                <td>自动2503</td>
+                                <td>2510503327</td>
+                                <td>2025年大唐杯校级奖</td>
+                                <td><span class="badge-school">校级优秀奖</span></td>
+                                <td>罗旗</td>
+                            </tr>
+                            <tr class="award-row school">
+                                <td>吴承峻</td>
+                                <td>自动2503</td>
+                                <td>2510503329</td>
+                                <td>2025年大唐杯校级奖</td>
+                                <td><span class="badge-school">校级优秀奖</span></td>
+                                <td>罗旗</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 吉林化工大学 机器人和智能车实验室. 保留所有权利.</p>
+        <p style="margin-top: 5px; color: #9ca3af;">实验室地址：吉林化工大学</p>
+    </footer>
+
+    <!-- 动态高亮与交互搜索脚本 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.content-section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // 1. 导航高亮与滚动监听
+            function updateActiveLink() {
+                let currentSectionId = '';
+                const scrollPosition = window.scrollY || window.pageYOffset;
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (scrollPosition >= (sectionTop - 120)) {
+                        currentSectionId = section.getAttribute('id');
+                    }
+                });
+
+                if (!currentSectionId && sections.length > 0) {
+                    currentSectionId = sections[0].getAttribute('id');
+                }
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateActiveLink);
+            updateActiveLink();
+
+            // 2. 荣誉展台交互检索与筛选
+            const searchInput = document.getElementById('award-search');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const tableRows = document.querySelectorAll('.award-row');
+
+            let activeFilter = 'all';
+            let searchText = '';
+
+            function filterTable() {
+                tableRows.forEach(row => {
+                    const textContent = row.textContent.toLowerCase();
+                    const matchesSearch = textContent.includes(searchText);
+                    
+                    let matchesFilter = false;
+                    if (activeFilter === 'all') {
+                        matchesFilter = true;
+                    } else if (activeFilter === 'prov1' && row.classList.contains('prov1')) {
+                        matchesFilter = true;
+                    } else if (activeFilter === 'prov23' && row.classList.contains('prov23')) {
+                        matchesFilter = true;
+                    } else if (activeFilter === 'school' && row.classList.contains('school')) {
+                        matchesFilter = true;
+                    }
+
+                    if (matchesSearch && matchesFilter) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            }
+
+            // 检索框监听
+            searchInput.addEventListener('input', (e) => {
+                searchText = e.target.value.toLowerCase();
+                filterTable();
+            });
+
+            // 筛选按钮监听
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeFilter = btn.getAttribute('data-filter');
+                    filterTable();
+                });
+            });
+        });
+    </script>
 </body>
 </html>
