@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>机器人和智能车实验室 | 吉林化工大学</title>
+    <!-- FontAwesome for Premium Academic Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --jlu-blue: #003e7e; /* 经典学术深蓝 */
@@ -38,7 +40,8 @@
         /* 页眉区域 */
         header {
             background-color: #ffffff;
-            padding: 20px 0;
+            padding: 25px 0;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .header-container {
@@ -56,30 +59,26 @@
             gap: 15px;
         }
 
-        .lab-logo {
-            height: 55px; /* 精确适配左侧 Logo 尺寸 */
-            width: auto;
-            object-fit: contain;
-        }
-
         .brand-text h1 {
-            font-size: 24px;
+            font-size: 26px;
             color: var(--jlu-blue);
             font-weight: 700;
+            letter-spacing: 0.5px;
         }
         .brand-text p {
             font-size: 13px;
             color: var(--text-muted);
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 2px;
         }
 
         /* 悬浮导航栏 */
         .navbar {
             position: sticky;
             top: 0;
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(10px);
-            border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
             z-index: 1000;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
@@ -90,7 +89,7 @@
             margin: 0 auto;
             padding: 0 20px;
             display: flex;
-            gap: 30px;
+            gap: 35px;
         }
 
         @media (max-width: 600px) {
@@ -132,7 +131,7 @@
             width: 100%;
         }
 
-        /* 主体两栏布局 (效仿经典学术主页范式) */
+        /* 主体两栏布局 (经典学术主页范式) */
         .main-container {
             max-width: 1100px;
             margin: 40px auto;
@@ -153,7 +152,7 @@
         /* 左侧侧边栏：基本信息 */
         .sidebar {
             position: sticky;
-            top: calc(var(--nav-height) + 20px);
+            top: calc(var(--nav-height) + 40px);
             align-self: start;
         }
 
@@ -167,7 +166,7 @@
         .profile-img-container {
             width: 100%;
             height: 240px;
-            background-color: #f3f4f6;
+            background-color: #ffffff;
             border-radius: 4px;
             overflow: hidden;
             border: 1px solid var(--border-color);
@@ -175,12 +174,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         
         .profile-img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* 改为 contain，使得 icon.png 在侧边栏能完美完整显示不被裁剪 */
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
             background-color: #ffffff;
         }
 
@@ -188,22 +189,33 @@
             font-size: 20px;
             color: var(--jlu-blue);
             margin-bottom: 5px;
+            font-weight: 700;
         }
         .sidebar-info .subtitle {
-            font-size: 14px;
+            font-size: 13.5px;
             color: var(--text-muted);
             margin-bottom: 15px;
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 10px;
+            font-weight: 500;
         }
 
         .contact-list {
             list-style: none;
-            font-size: 14px;
+            font-size: 13.5px;
         }
         .contact-list li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             color: #4b5563;
+            line-height: 1.5;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+        .contact-list li i {
+            color: var(--jlu-blue);
+            margin-top: 3px;
+            font-size: 14px;
         }
         .contact-list strong {
             color: var(--text-dark);
@@ -212,15 +224,15 @@
         /* 右侧主内容区 */
         .content-section {
             margin-bottom: 50px;
-            scroll-margin-top: calc(var(--nav-height) + 20px); /* 防止吸顶导航挡住标题 */
+            scroll-margin-top: calc(var(--nav-height) + 40px);
         }
 
         .section-title {
             font-size: 20px;
             color: var(--jlu-blue);
             border-bottom: 2px solid var(--jlu-blue);
-            padding-bottom: 5px;
-            margin-bottom: 20px;
+            padding-bottom: 6px;
+            margin-bottom: 22px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -231,6 +243,7 @@
             color: #374151;
             text-align: justify;
             margin-bottom: 20px;
+            text-indent: 2em;
         }
 
         /* 实验室优势高亮卡片 */
@@ -250,7 +263,7 @@
         .highlight-card {
             background-color: var(--bg-light);
             border: 1px solid var(--border-color);
-            padding: 15px 20px;
+            padding: 18px 20px;
             border-radius: 4px;
         }
 
@@ -264,7 +277,7 @@
         .highlight-card p {
             font-size: 13.5px;
             color: var(--text-muted);
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         /* 招新通知呼吁盒子 */
@@ -417,15 +430,15 @@
         .mentor-card {
             background-color: var(--bg-light);
             border-left: 4px solid var(--jlu-blue);
-            padding: 20px;
+            padding: 22px;
             margin-bottom: 25px;
             border-radius: 0 4px 4px 0;
         }
 
         .mentor-card h3 {
-            font-size: 17px;
+            font-size: 18px;
             color: var(--jlu-blue);
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -442,15 +455,16 @@
 
         .mentor-card ul {
             padding-left: 20px;
-            font-size: 14.5px;
+            font-size: 14px;
             color: #4b5563;
         }
 
         .mentor-card li {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            line-height: 1.6;
         }
 
-        /* 学术论文列表样式 (精确还原 Li Zan 教授主页格式) */
+        /* 学术论文列表样式 (Li Zan 教授主页格式) */
         .publication-list {
             list-style: none;
         }
@@ -477,7 +491,7 @@
         .table-wrapper {
             overflow-x: auto;
             margin-top: 15px;
-            max-height: 600px; /* 增加大列表滚动视图，极高信息密度的学术美感 */
+            max-height: 600px; /* 大列表滚动视图 */
             border: 1px solid var(--border-color);
             border-radius: 4px;
         }
@@ -577,16 +591,17 @@
         
         <div class="sidebar">
             <div class="profile-img-container">
-                <!-- 按照反馈，箭头所指左侧位置替换并使用 icon.png -->
-                <img src="icon.png" alt="机器人和智能车实验室 Logo">
+                <!-- 自适应图片且自带优雅 fallback 的 Logo 块 -->
+                <img src="icon.png" alt="机器人和智能车实验室 Logo" onerror="this.onerror=null; this.src='https://placehold.co/280x240/003e7e/ffffff?text=JLUCT+Robot+Lab';">
             </div>
             <div class="sidebar-info">
                 <h2>机器人和智能车实验室</h2>
                 <div class="subtitle">技术创新与学术科研双驱动</div>
                 <ul class="contact-list">
-                    <li><strong>核心方向：</strong>边缘计算优化、物联网感知、智能控制系统</li>
-                    <li><strong>学校地址：</strong>吉林化工大学</li>
-                    <li><strong>合作机制：</strong>长周期协同 / 全栈联合培养</li>
+                    <li><i class="fa-solid fa-microchip"></i> <div><strong>核心方向：</strong>边缘自适应计算、智能控制系统、机器人视觉、微服务全栈系统开发</div></li>
+                    <li><i class="fa-solid fa-location-dot"></i> <div><strong>学校地址：</strong>吉林化工大学</div></li>
+                    <li><i class="fa-solid fa-handshake"></i> <div><strong>依托：</strong>智能制造协会</div></li>
+                    <li><i class="fa-solid fa-users"></i> <div><strong>合作机制：</strong>工业界资深专家 + 高层次人才联合培养</div></li>
                 </ul>
             </div>
         </div>
@@ -597,20 +612,20 @@
             <div class="content-section" id="about">
                 <div class="section-title">实验室简介</div>
                 <p class="bio-text">
-                    吉林化工大学机器人和智能车实验室<strong>依托于智能制造协会</strong>，由海内外知名学者与工业界资深全栈架构专家联合指导。本实验室以<strong>高水平学科竞赛与前沿学术产出为双向驱动力</strong>，致力于打破高校传统学术理论与工业落地应用之间的技术壁垒，是一所集前沿技术研发、双创实训和学术探索于一体的高水平特色实践基地。
+                    吉林化工大学机器人和智能车实验室<strong>依托于智能制造协会</strong>，由吉林省高层次引进人才与工业界资深全栈架构专家联合指导。本实验室以<strong>高水平学科竞赛与前沿学术产出为双向驱动力</strong>，致力于打破高校传统学术理论与工业落地应用之间的技术壁垒，是一所集前沿技术研发、双创实训和学术探索于一体的高水平特色实践基地。
                 </p>
                 <p class="bio-text">
-                    实验室目前配备有<strong>竞赛级/工业级机器人 2 台、高性能智能车 3 台以及高精度 3D 打印机</strong>等先进硬件研发平台，并建立起一套完善、常态化的<strong>定期培训机制</strong>。团队全方位、深层次指导学生进行<strong>编程、控制、视觉、机器学习、强化学习、系统开发</strong>等核心技术栈的跨学科实战，打通从底层硬件逻辑、物理结构验证至上层智能算法的全链条通路。通过严苛的敏捷工程管理与前沿学术训练，协助学生在极短周期内完成理论落地与工程重塑，实现成果从 0 到 1 的高质感突破。
+                    实验室目前配备有<strong>竞赛级/工业级机器人 2 台、高性能智能车 3 台以及高精度 3D 打印机 1 台、嵌入式原件若干</strong>等先进硬件研发平台，并建立起一套完善、常态化的<strong>定期培训机制</strong>。团队全方位、深层次指导学生进行<strong>编程、控制、视觉、机器学习、强化学习、系统开发</strong>等核心技术栈的跨学科实战，打通从底层硬件逻辑、物理结构验证至上层智能算法的全链条通路。通过引入工业级敏捷开发模式与前沿学术训练，协助学生在极短周期内完成理论落地与工程重塑，实现成果从 0 到 1 的高质感突破。
                 </p>
                 
                 <div class="lab-highlights">
                     <div class="highlight-card">
-                        <strong>🔬 硬件配置 & 协会依托</strong>
-                        <p>依托学校智能制造协会，目前常备先进竞赛机器人 2 台、高配置智能赛车 3 台，以及高精度 3D 打印机数台。提供全天候的硬件调试和结构打样环境，保障高频次控制算法迭代与非标原型机物理快速打样验证需求。</p>
+                        <strong>🔬 先进硬件研发平台</strong>
+                        <p>常备先进竞赛/工业级机器人 2 台、高配置智能车 3 台，以及高精度 3D 打印机 1 台，辅以大量 ARM/STM32 开发套件与精密传感器。提供充足 of 研发物理空间与非标机构极速打样验证能力。</p>
                     </div>
                     <div class="highlight-card">
-                        <strong>🎓 周期性培训 & 多维指导</strong>
-                        <p>搭建常态化、螺旋式上升的知识讲授与实战演练体系。全链条覆盖底层固件与系统开发（C++/Python）、经典与现代控制工程、前端/后端视觉感知、前沿机器学习与多智能体强化学习。</p>
+                        <strong>🎓 工业标准敏捷带教</strong>
+                        <p>构建常态化、螺旋式上升的知识讲授与实战演练体系。全链条覆盖底层固件逻辑、经典与现代控制工程、前端/后端视觉感知、前沿边缘智能与高并发全栈云原生微服务开发体系。</p>
                     </div>
                 </div>
 
@@ -631,24 +646,24 @@
             <div class="content-section" id="mentorship">
                 <div class="section-title">学生培养与发展指导 (Student Mentorship)</div>
                 <p class="bio-text">
-                    除了常规的实验室硬件调试研发外，实验室核心导师组深度介入本科生成长周期的每一个关键节点，提供包括竞赛实训、学业路线图、名校考研辅导以及顶尖学术成果孵化在内的“全链条”个性化带教。
+                    除了常规 of 实验室硬件调试研发外，实验室核心导师组深度介入本科生成长周期的每一个关键节点，提供包括竞赛实训、学业路线图、名校考研辅导以及顶尖学术成果孵化在内的“全链条”个性化带教。
                 </p>
                 <div class="guidance-grid">
                     <div class="guidance-card">
-                        <h4>🏆 顶级学科竞赛指导</h4>
-                        <p>引入大厂工业级开发规范与敏捷流程，由金牌导师手把手带教. 针对全国大学生电子设计竞赛（电赛）、人工智能创新大赛、全地形机器人大赛、智能车竞赛等核心赛事，从原理图设计、嵌入式开发、感知算法优化到整机联合调试，进行系统化高强度演练，帮助学生实现省级一等奖零的突破。</p>
+                        <h4>🏆 顶级学科竞赛指导 (比赛目标)</h4>
+                        <p>引入大厂工业级开发规范与敏捷流程，由金牌导师手把手带教。针对全国大学生电子设计竞赛（电赛）、人工智能创新大赛、全地形机器人大赛、智能车竞赛等核心赛事，从原理图设计、嵌入式开发、感知算法优化到整机联合调试，进行系统化高强度演练，帮助学生冲击省级乃至国家级核心奖项。</p>
                     </div>
                     <div class="guidance-card">
-                        <h4>📈 阶梯式本科学业规划</h4>
-                        <p>破除低年级本科生学业迷茫，制定“大一固编程基础、大二攻硬核竞赛、大三冲前沿学术/全栈开发、大四无缝接轨大厂就业/重点院校”的阶梯式技术成长图谱。精准匹配学生兴趣与核心技术棧，协助学生在校期间构建极具竞争力的个人技能与简历背景。</p>
+                        <h4>📈 阶梯式本科学业规划 (就业目标)</h4>
+                        <p>破除低年级本科生学业迷茫，制定“大一固编程基础、大二攻硬核竞赛、大三冲前沿学术/全栈开发、大四无缝接轨大厂就业/重点院校”的阶梯式技术成长图谱。结合导师多年互联网一线高强度实战经验，协助学生在校期间构建极具竞争力的工业级简历背景与项目经验。</p>
                     </div>
                     <div class="guidance-card">
-                        <h4>🎯 考研择校与专业辅导</h4>
-                        <p>依托实验室深厚的国内顶级名校学术人脉（如中国石油大学、复旦大学、芬兰奥卢大学及各大双一流科研院所），提供考研专业课（数据结构、计算机网络、自控原理等）核心解惑，协助进行科学 of 考研择校、调剂情报共享、高质量复试简历打磨与面试实操模拟。</p>
+                        <h4>🎯 考研择校与专业辅导 (考研目标)</h4>
+                        <p>依托实验室深厚的国内顶级名校学术人脉，提供考研专业课（数据结构、计算机网络、自控原理等）核心解惑，协助进行科学的考研择校、调剂情报共享、高质量复试简历打磨与面试实操模拟，全方位护航学生成功考取高水平科研院所。</p>
                     </div>
                     <div class="guidance-card">
                         <h4>✍️ 高水平论文与专利写作</h4>
-                        <p>由国际一区顶刊特邀审稿人、高层次引进人才刘芳正老师亲自指点。面向有意发表学术论文、申请国家专利的学生，提供选题凝练、数学建模、文献检索、英文润色、专利申报书规范撰写以及避坑审稿意见的一对一硬核实训，助力本科生跨越学术门槛。</p>
+                        <p>由国际一区顶刊特邀审稿人、高层次引进人才刘芳正老师亲自指点。面向有意发表学术论文、申请国家发明专利的高年级学生，提供选题凝练、数学建模、文献检索、英文润色、专利申报书规范撰写以及避坑审稿意见的一对一硬核实训，助力本科生跨越学术门槛。</p>
                     </div>
                 </div>
             </div>
@@ -662,7 +677,7 @@
                     <ul>
                         <li><strong>省部级引进高层次人才：</strong>吉林省 E 类高层次引进人才，长期专注边缘计算与智能优化，具备极高的国际学术影响力。</li>
                         <li><strong>国际顶级学术背书：</strong>受邀担任 IEEE Internet of Things Journal (物联网领域 Top 1 期刊)、IEEE Transactions on Cloud Computing (云计算顶级期刊)、IEEE TMC 等国际顶级期刊特邀审稿人；参与并顺利结题北京市科技新星计划。</li>
-                        <li><strong>带队卓越实绩 (省一集群)</strong>：长期坚持“以赛促学”的高效带教策略。指导本科生团队累计斩获<strong>省级一等奖 2 项</strong>、<strong>省级二等奖 2 项</strong>以及考研辅导、高水平成果转化若干。</li>
+                        <li><strong>带队卓越实绩：</strong>长期坚持“以赛促学”的高效带教策略。指导本科生团队累计斩获<strong>省级一等奖 2 项</strong>、<strong>省级二等奖 2 项</strong>以及考研辅导、高水平成果转化若干。</li>
                     </ul>
                 </div>
 
@@ -670,7 +685,7 @@
                     <h3>罗旗 <span class="title-tag">助理实验师</span></h3>
                     <ul>
                         <li><strong>资深工业界全栈架构背景：</strong>拥有 7.5 年互联网一线大厂高强度实战经验。历任爱奇艺、美团资深系统开发工程师，并曾担任科技创业公司 Talentown 首席架构师；主导过百万级高并发底座系统设计，具备从 0 到 1 全链路云原生化工程搭建与敏捷开发落地能力。</li>
-                        <li><strong>极速高效的带教转化实绩：</strong>入职吉林化工大学仅一年内，成功将大厂敏捷开发与工程规范管理模式注入竞赛团队。指导学生团队累计夺得<strong>省级一等奖 1 项</strong>（2025吉林省人工智能创新大赛）、<strong>省级二等奖 1 项</strong>（全国大学生电子设计竞赛）、<strong>省级三等奖 1 项</strong>（长通杯等），在极短周期内实现了竞赛成果从 0 到 1 的高质、指数级质变突破。</li>
+                        <li><strong>极速高效的带教转化实绩：</strong>入职吉林化工大学短时间内，成功将大厂敏捷开发与工程规范管理模式注入竞赛团队。指导学生团队累计夺得<strong>省级一等奖 1 项</strong>（2025吉林省人工智能创新大赛）、<strong>省级二等奖 1 项</strong>（全国大学生电子设计竞赛）、<strong>省级三等奖 1 项</strong>（全国大学生电子设计竞赛等），在极短周期内实现了竞赛成果从 0 到 1 的高质量、高速度质变突破。</li>
                     </ul>
                 </div>
             </div>
@@ -682,27 +697,27 @@
                     <li class="publication-item">
                         <span class="pub-authors"><strong>Fangzheng Liu</strong>, Hao Yu, Jiwei Huang, Tarik Taleb.</span> 
                         <span class="pub-title">"Joint Service Migration and Resource Allocation in Edge IoT System Based on Deep Reinforcement Learning"</span>[J]. 
-                        <span class="pub-journal">IEEE Internet of Things Journal</span>, 11(7): 11341-11352, 2023. <span class="pub-impact">(中科院一区 Top 期刊, 影响因子: 10.6)</span>
+                        <span class="pub-journal">IEEE Internet of Things Journal</span>, 11(7): 11341-11352, 2023. <span class="pub-impact">(SCI 检索，中科院一区 Top)</span>
                     </li>
                     <li class="publication-item">
                         <span class="pub-authors"><strong>Fangzheng Liu</strong>, Jiwei Huang, Xianbin Wang.</span> 
                         <span class="pub-title">"Joint task offloading and resource allocation for device-edge-cloud collaboration with subtask dependencies"</span>[J]. 
-                        <span class="pub-journal">IEEE Transactions on Cloud Computing</span>, 11(3): 3027-3039, 2023. <span class="pub-impact">(中科院一区 Top 期刊, 云计算领域顶级)</span>
+                        <span class="pub-journal">IEEE Transactions on Cloud Computing</span>, 11(3): 3027-3039, 2023. <span class="pub-impact">(SCI 检索，中科院二区)</span>
                     </li>
                     <li class="publication-item">
                         <span class="pub-authors">Jiwei Huang, <strong>Fangzheng Liu</strong>, Jianbing Zhang.</span> 
                         <span class="pub-title">"Multi-dimensional QoS Evaluation and Optimization of Mobile Edge Computing for IoT: A Survey"</span>[J]. 
-                        <span class="pub-journal">Chinese Journal of Electronics</span>, 33(5): 1-16, 2024. <span class="pub-impact">(SCI / EI 双检索, 电子学报英文版)</span>
+                        <span class="pub-journal">Chinese Journal of Electronics</span>, 33(5): 1-16, 2024. <span class="pub-impact">(SCI检索，中科院四区)</span>
                     </li>
                     <li class="publication-item">
                         <span class="pub-authors"><strong>Fangzheng Liu</strong>, Bofeng Lv, Jiwei Huang, Sikandar Ali.</span> 
                         <span class="pub-title">"Edge User Allocation in Overlap Areas for Mobile Edge Computing"</span>[J]. 
-                        <span class="pub-journal">Mobile Networks and Applications</span>, 26(6): 2423-2433, 2021. <span class="pub-impact">(SCI 检索)</span>
+                        <span class="pub-journal">Mobile Networks and Applications</span>, 26(6): 2423-2433, 2021. <span class="pub-impact">(SCI 检索，中科院四区)</span>
                     </li>
                     <li class="publication-item">
                         <span class="pub-authors"><strong>Fangzheng Liu</strong>, Bofeng Lv, Jiwei Huang, Sikandar Ali.</span> 
                         <span class="pub-title">"Towards Mobility-Aware Dynamic Service Migration in Mobile Edge Computing"</span>[C]. 
-                        <span class="pub-journal">Collaborative Computing: Networking, Applications and Worksharing (CollaborateCom)</span>, Springer, 115-131, 2021. <span class="pub-impact">(EI 检索重要学术会议)</span>
+                        <span class="pub-journal">Collaborative Computing: Networking, Applications and Worksharing (CollaborateCom)</span>, Springer, 115-131, 2021. <span class="pub-impact">(CCF C类会议, EI 检索)</span>
                     </li>
                     <li class="publication-item">
                         <span class="pub-authors"><strong>刘芳正</strong>, 马博闻, 吕博枫, 黄霁崴.</span> 
@@ -736,7 +751,7 @@
                     本实验室在人才培养、带队双创及工程实践上实现了丰硕转化，累计指导本科生斩获各项省级及校级赛事荣誉 <strong>54 项</strong>。以下为实验室全部学生获奖明细。
                 </p>
 
-                <!-- 交互式动态筛选控件（提升检索性） -->
+                <!-- 交互式动态筛选控件 -->
                 <div class="filter-controls">
                     <input type="text" id="award-search" class="search-box" placeholder="🔍 输入姓名、班级、赛项或奖项筛选...">
                     <div class="filter-btns">
@@ -829,7 +844,7 @@
                                 <td>朱佳妮</td>
                                 <td>自动2503</td>
                                 <td>2510503339</td>
-                                <td>2025吉省全地形机器人自主创新设计比赛省一</td>
+                                <td>2025吉林省全地形机器人自主创新设计比赛省一</td>
                                 <td><span class="badge-prize">省级一等奖</span></td>
                                 <td>-</td>
                             </tr>
@@ -1142,7 +1157,7 @@
                                 <td>-</td>
                             </tr>
                             <tr class="award-row school">
-                                <td>刘帝讯</td>
+                                <td>刘帝凯</td>
                                 <td>智能2501</td>
                                 <td>2510551112</td>
                                 <td>2025年长通杯校二</td>
@@ -1223,7 +1238,7 @@
 
     <footer>
         <p>© 2026 吉林化工大学 机器人和智能车实验室. 保留所有权利.</p>
-        <p style="margin-top: 5px; color: #9ca3af;">实验室地址：吉林化工大学</p>
+        <p style="margin-top: 5px; color: #9ca3af;">实验室地址：吉林化工大学 | 依托：智能制造协会</p>
     </footer>
 
     <!-- 动态高亮与交互搜索脚本 -->
